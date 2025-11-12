@@ -1,5 +1,9 @@
 pipeline {
-    agent any
+    agent {
+        docker {
+            image 'python:3.9-alpine'
+        }
+    }
 
     stages {
         stage('Build') {
@@ -11,8 +15,8 @@ pipeline {
         stage('Test') {
             steps {
                 echo 'Ejecutando pruebas unitarias...'
-                sh 'python -m unittest Makarena app.py -v'
+                sh 'python -m unittest discover -v'
             }
         }
     }
-}    
+}
