@@ -1,25 +1,23 @@
 pipeline {
-    agent {
-        docker {
-            image 'python:3.9-slim'
-            args '-v /var/run/docker.sock:/var/run/docker.sock'  
-        }
-    }
-    
+    agent { docker { image 'python:3.9-slim' } }
+
     stages {
         stage('Build') {
             steps {
                 echo 'Construyendo el proyecto...'
-                sh 'python --version'
             }
         }
-        
+        stage('Test') {
+            steps {
+                echo 'Ejecutando pruebas...'
+            }
+        }
         stage('Security Scan') {
             steps {
-                echo 'Instalando Bandit...'
-                sh 'pip install bandit'
+                echo 'Instalando herramientas de seguridad...'
+                sh 'pip install -r requirements.txt'
                 
-                echo 'Ejecutando análisis de seguridad...'
+                echo 'Ejecutando análisis estático con Bandit...'
                 sh 'bandit -r . || true'
             }
         }
