@@ -1,5 +1,5 @@
 pipeline {
-    agent { docker { image 'python:3.9-slim' } }
+    agent any
 
     stages {
         stage('Build') {
@@ -15,10 +15,13 @@ pipeline {
         stage('Security Scan') {
             steps {
                 echo 'Instalando herramientas de seguridad...'
-                sh 'pip install -r requirements.txt'
-                
-                echo 'Ejecutando análisis estático con Bandit...'
-                sh 'bandit -r . || true'
+                sh '''
+                python3 -m venv venv
+                . venv/bin/activate
+                pip install --upgrade pip
+                pip install -r requirements.txt
+                bandit -r . || true
+                '''
             }
         }
     }
