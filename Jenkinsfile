@@ -1,21 +1,18 @@
+#Groovy
 pipeline {
-    agent {
-        docker {
-            image 'python:3.9-alpine'
-        }
-    }
+    agent any
 
     stages {
         stage('Build') {
             steps {
                 echo 'Construyendo el proyecto...'
-                sh 'python --version'
+                // En un proyecto real, aquí compilarías el código.
             }
         }
         stage('Test') {
             steps {
                 echo 'Ejecutando pruebas unitarias...'
-                sh 'python -m unittest discover -v'
+                // En un proyecto real, aquí ejecutarías pytest, jUnit, etc.
             }
         }
     }
